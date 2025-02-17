@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            padding: 1rem;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            padding: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .logo:hover {
+            color: #64ffda;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #64ffda;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            padding: 5px;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        /* Hero Section Styles */
+        .hero {
+            height: 120vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, transparent 20%, #2c3e50 80%);
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        .typing-effect {
+    display: inline-block;
+    border-right: 3px solid #64ffda;
+    margin: 0 auto;
+    white-space: nowrap;
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0; 
+    display: none; 
+}
+
+.typing-container {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    min-height: 3.5rem;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #64ffda }
+}
+
+@media (max-width: 768px) {
+    .typing-container {
+        font-size: 2rem;
+        min-height: 2.5rem;
+    }
+}
+
+
+        .profile-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 2rem;
+            border: 3px solid #64ffda;
+            box-shadow: 0 0 20px rgba(100,255,218,0.3);
+            transition: transform 0.3s;
+        }
+
+        .profile-container:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit:fill;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #64ffda;
+            transform: translateY(-3px);
+        }
+
+        /* Projects Section Styles */
+        .projects {
+            padding: 5rem 2rem;
+            background: #f5f5f5;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #64ffda;
+            margin: 1rem auto;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    position: relative;
+    padding: 1.5rem;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-info {
+    position: relative;
+}
+
+.project-info h3 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.project-info p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.project-links a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-links a:hover {
+    color: #2c3e50;
+}
+
+.project-links i {
+    font-size: 1.2rem;
+}
+
+        /* Skills Section Styles */
+        .skills {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skill-item {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .skill-item i {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section Styles */
+        .contact {
+            padding: 5rem 2rem;
+            background: #2c3e50;
+            color: white;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            background: rgba(255,255,255,0.2);
+            outline: none;
+        }
+
+        .submit-btn {
+            background: #64ffda;
+            color: #2c3e50;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #45e6c6;
+            transform: translateY(-2px);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .hero{
+                padding-top: 350px;
+                padding-bottom: 350px;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #333;
+                padding: 1rem;
+                flex-direction: column;
+                text-align: center;
+                transform: translateY(-10px);
+                opacity: 0;
+                transition: all 0.3s;
+            }
+
+            .nav-links.active {
+                display: flex;
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+            
+            .hero{
+                padding-top: 350px;
+                padding-bottom: 250px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .profile-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Portfolio</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="profile-container">
+                <img src="Sai_Sandeep.jpg" alt="Your Profile" class="profile-img">
+            </div>
+            <div class="typing-container">
+                <span class="typing-effect">Hi, I'm Sai Sandeep Jagabathula</span>
+            </div>
+            <p>I am a passionate Information Technology student at Lakireddy Bali Reddy College of Engineering, specializing in Cloud Engineering, DevOps, and web development.
+                My aim is to develop innovative solutions to real-world problems by integrating the latest technologies. I am always looking for opportunities to learn and grow as a tech professional.</p>
+            <div class="social-links">
+                <a href="https://github.com/saisandeep174" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/sai-sandeep-jagabathula-00aa8128b" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:saisandeep@gmail.com"><i class="fas fa-envelope"></i></a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2 class="section-title">My Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>NGO Website</h3>
+                    <p>Created a static website with HTML and CSS to support an NGO's mission. The website serves as an online presence for the NGO, providing information about their programs, donation options, and volunteer opportunities. It includes interactive forms for donations and volunteer sign-ups.</p>
+                    <div class="project-links">
+                        <a href="https://safeorg.in"><i class="fas fa-external-link-alt" target="_blank"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Cloud-Native Application</h3>
+                    <p>Developed a full-stack application using AWS Fargate and MongoDB with a responsive frontend. The app is designed to scale dynamically with traffic, and it utilizes AWS services such as S3, CloudFront, and Lambda for a serverless experience. The frontend is built with React, making the application highly interactive.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/saisandeep174/FargateApp" target="_blank"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Personalized Learning Platform</h3>
+                    <p>Led a team in building a MERN stack platform for dynamic teacher-student interaction. The platform includes real-time chat, video conferencing, and collaborative whiteboards for teaching sessions. The system also integrates personalized learning recommendations based on user behavior and progress.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/kurisettisaisujith/Personalized-Learning-Tutoring-Tool-" target="_blank"><i class="fab fa-github"></i> Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <i class="fab fa-python"></i>
+                <h3>Python</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-html5"></i>
+                <h3>HTML5</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-css3-alt"></i>
+                <h3>CSS3</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-java"></i>
+                <h3>Java</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-docker"></i>
+                <h3>Docker</h3>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-aws"></i>
+                <h3>AWS</h3>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2 class="section-title">Contact Me</h2>
+        <form class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">
+                    <label for="message">Message</label>
+                <textarea id="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Sai Sandeep Jagabathula. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+        const navbar = document.querySelector('.navbar');
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const form = document.querySelector('.contact-form');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navbarHeight = navbar.offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                    
+                    window.scrollTo({
+                        top: targetPosition - navbarHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        function createTypingEffect() {
+    const text = "Hi, I'm Sai Sandeep Jagabathula";
+    const typingElement = document.querySelector('.typing-effect');
+    typingElement.style.width = '0';
+    let currentText = '';
+    
+    for(let i = 0; i < text.length; i++) {
+        setTimeout(() => {
+            currentText += text[i];
+            typingElement.textContent = currentText;
+        }, i * 100); 
+    }
+}
+
+window.addEventListener('load', createTypingEffect);
+
+window.addEventListener('scroll', () => {
+    const typingElement = document.querySelector('.typing-effect');
+    if (window.scrollY === 0) {
+        typingElement.textContent = '';
+        createTypingEffect();
+    }
+});
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            form.reset();
+        });
+
+        const reveal = () => {
+            const reveals = document.querySelectorAll('.project-card, .skill-item');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', reveal);
+
+        function createTypingEffect() {
+    const text = "Hi, I'm Sai Sandeep Jagabathula";
+    const typingElement = document.querySelector('.typing-effect');
+    let currentText = '';
+    let index = 0;
+    
+    function type() {
+        if (index < text.length) {
+            currentText += text[index];
+            typingElement.textContent = currentText;
+            index++;
+            setTimeout(type, 100); 
+        }
+    }
+
+    typingElement.textContent = '';
+    type();
+}
+
+window.addEventListener('load', createTypingEffect);
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY === 0) {
+        createTypingEffect();
+    }
+});
+    </script>
+</body>
+</html>
+
